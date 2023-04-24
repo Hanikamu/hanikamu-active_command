@@ -13,7 +13,7 @@ module Hanikamu
         schema.call(...)
       rescue Dry::Types::MissingKeyError, Dry::Types::SchemaError => e
         error = self::Error.new(e.message)
-        error.errors.add(e.key, I18n.t("base_command.is_missing"))
+        error.errors.add(e.key, e.message)
         raise error
       end
       raise e

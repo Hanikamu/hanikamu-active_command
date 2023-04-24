@@ -2,24 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Hanikamu::Service do
-  describe "#new" do
-    it "is private" do
-      expect { described_class.new }
-        .to raise_error(NoMethodError)
-    end
-  end
-
-  describe "#call!" do
-    it "has to be declared in subclasses" do
-      expect { described_class.call! }.to raise_error(NoMethodError)
-    end
-  end
-
-
+RSpec.describe Hanikamu::ActiveCommand do
   context "when passing the wrong argument type" do
-    let(:failing_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+    let(:service) do
+      class TestFooModule::Bar < Hanikamu::ActiveCommand
         attribute :some_string, Dry::Types["string"]
 
         def call!
@@ -30,46 +16,49 @@ RSpec.describe Hanikamu::Service do
     end
 
     describe ".call" do
+      subject { service.call(some_string: 3) }
       it "returns a monadic Failure response" do
-        expect(failing_service.call(some_string: 3)).to be_a(Dry::Monads::Failure)
+        expect(subject).to be_a(Dry::Monads::Failure)
+        expect(subject.failure.errors).to be_a(ActiveModel::Errors)
+        expect(subject.failure.errors.first.attribute).to eq(:some_string)
       end
     end
 
     describe ".call!" do
-      it "returns a Dry::Struct::Error" do
-        expect { failing_service.call!(some_string: 3) }.to raise_error(Dry::Struct::Error)
+      it "returns a Hanikamu::ActiveCommand::Error" do
+        expect { service.call!(some_string: 3) }.to raise_error(Hanikamu::ActiveCommand::Error)
       end
     end
   end
 
-  context "when raising a Hanikam::Service::Error" do
+  context "when raising a Hanikamu::ActiveCommand::Error" do
     let(:failing_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+      class TestFooModule::Bar < Hanikamu::ActiveCommand
         def call!
-          raise Error, "Oh, no!"
+          raise_error "Oh, no!"
         end
       end
       TestFooModule::Bar
     end
 
     describe ".call" do
-      it "returns a failure monad for Hanikamu::Service::Error" do
+      it "returns a failure monad for Hanikamu::ActiveCommand::Error" do
         expect(failing_service.call).to be_a(Dry::Monads::Failure)
         expect(failing_service.call.failure.message).to eq("Oh, no!")
-        expect(failing_service.call.failure.class).to be(Hanikamu::Service::Error)
+        expect(failing_service.call.failure.class).to be(Hanikamu::ActiveCommand::Error)
       end
     end
 
     describe ".call!" do
-      it "returns a failure monad for Hanikamu::Service::Error" do
-        expect { failing_service.call! }.to raise_error(Hanikamu::Service::Error, "Oh, no!")
+      it "returns a failure monad for Hanikamu::ActiveCommand::Error" do
+        expect { failing_service.call! }.to raise_error(Hanikamu::ActiveCommand::Error, "Oh, no!")
       end
     end
   end
 
-  context "when raising a custom error inheriting from Hanikamu::Service::Error" do  
+  context "when raising a custom error inheriting from Hanikamu::ActiveCommand::Error" do  
       let(:failing_service) do
-        class TestFooModule::Bar < Hanikamu::Service
+        class TestFooModule::Bar < Hanikamu::ActiveCommand
           CustomError = Class.new(self::Error)
           def call!
             raise CustomError, "Oh, yes!"
