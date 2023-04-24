@@ -63,3 +63,7 @@ Lint/Debugger:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 30
+
+Naming/FileName:
+  Exclude:
+    - './lib/hanikamu-active_command.rb'
