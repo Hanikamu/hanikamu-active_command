@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency  "hanikamu-service", "~> 0.1.0"
   # s.add_dependency  "zeitwerk", "< 3"
-  s.add_dependency  "activemodel", "< 8"
+  s.add_dependency  "activemodel", "< 9"
 
   s.metadata["rubygems_mfa_required"] = "true"
 end
