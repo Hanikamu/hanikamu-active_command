@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     hanikamu-active_command (0.1.0)
-      activemodel (< 8)
+      activemodel (< 9)
       hanikamu-service (~> 0.1.0)
 
 GEM
