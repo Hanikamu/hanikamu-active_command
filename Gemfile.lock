@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hanikamu-active_command (0.1.0)
+    hanikamu-active_command (0.2.0)
       activemodel (< 9)
       hanikamu-service (~> 0.1.0)
 
@@ -113,6 +113,3 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rspec
-
-BUNDLED WITH
-   2.4.10
