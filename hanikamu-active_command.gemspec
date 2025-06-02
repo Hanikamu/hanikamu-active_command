@@ -15,8 +15,8 @@ Gem::Specification.new do |s|
   s.files = Dir["{config,lib}/**/*", "Rakefile"]
   s.require_paths = ["lib"]
 
-  s.add_dependency  "hanikamu-service", "~> 0.1.0"
   s.add_dependency  "activemodel", "< 9"
+  s.add_dependency  "hanikamu-service", "~> 0.1.0"
 
   s.metadata["rubygems_mfa_required"] = "true"
 end
