@@ -11,6 +11,7 @@ gemspec
 
 eval_gemfile "./Gemfile.runtime"
 gem "hanikamu-service", "~> 0.1.0"
+gem "bigdecimal"
 
 gem "bundler", ">= 2"
 gem "pry", ">= 0.14.0"
