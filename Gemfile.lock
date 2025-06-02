@@ -113,7 +113,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bigdecimal
   bundler (>= 2)
   hanikamu-active_command!
   hanikamu-service (~> 0.1.0)
